@@ -4,10 +4,6 @@ Assistente virtual astrológica codificada com Python e OpenAI
 
 Atividade para a Python Norte 2025
 
-Baixe o código aqui:
-
-[![Download Code](https://img.shields.io/badge/Download-Code-blue.svg)](https://github.com/thalisonwilker/estrela-guia/archive/refs/heads/main.zip)
-
 ## Panorama geral da atividade
    - Entender o que é um assistente virtual
    - Entender o contexto de uso de APIs de LLMs
