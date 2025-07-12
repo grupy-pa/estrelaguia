@@ -27,8 +27,6 @@ theme:
 
 nav:
   - Home: index.md
-  - Sobre: about.md
-  - Guia: guide.md
 
 markdown_extensions:
   - pymdownx.highlight
