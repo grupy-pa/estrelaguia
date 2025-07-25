@@ -19,9 +19,10 @@ Para que possamos entender melhor como funciona um assistente, primeiro vou expl
     [What is AI? ](https://www.ibm.com/br-pt/think/topics/artificial-intelligence)
 
 !!! info "Inteligência Artificial (Máquinas pensantes)"
-    Esta tecnologia foi idealizada incialmente na década de 1950 pelo matemático inglês Alan Turing, ao propor ao mundo a criação de máquina autônomas capazes de realizar tarefas que se assemelham a alguns comportamento humano, como o de pensar e reagir de acordo com o ambiente.
-    A inteligência artifical se tornou uma das áres mais populares da computação, inclusive ficção cientiífica como por exemplo o filme **The Matrix - 1999**.
-    Atualmente as IAs já fazem parte do coquitiano de pessoas comuns, com a chagada do ChatGPT inaugurou-se a era das IAs modernas, tornando a tecnologia acessível para todos.
+    Esta tecnologia foi idealizada inicialmente na década de 1950 pelo matemático inglês Alan Turing, ao propor ao mundo a criação de máquinas autônomas capazes de realizar tarefas que se assemelham a alguns comportamentos humanos, como o de pensar e reagir de acordo com o ambiente. A inteligência artificial se tornou uma das áreas mais populares da computação, incentivando inclusive a produção de ficção científica como por exemplo o filme The Matrix - 1999 (Distopia tecnológica e IAs) .
+    
+    Atualmente as IAs já fazem parte do cotidiano de pessoas comuns, com a chegada do ChatGPT inaugurou-se a era das IAs modernas, tornando a tecnologia acessível para todos.
+
 
 !!! info "O Conceito de GenAI"
     A IA generativa é um tipo de inteligência artificial capaz de criar novos conteúdos, como textos, imagens, músicas, vídeos e código, com base em padrões aprendidos a partir de grandes conjuntos de dados. Em vez de apenas analisar e classificar dados, a IA generativa tem a capacidade de gerar outputs originais e criativos. 
@@ -47,7 +48,9 @@ O desenvolvimento de um modelo de LLM envolve a criação de um projeto e a sele
 !!! info "API de LLM"
     API de LLM é um serviço que expõe funcionalidades de um modelo de linguagem por meio de chamadas HTTP, permitindo gerar textos, responder perguntas, traduzir, resumir, entre outras tarefas de linguagem natural.
 
-Treinar a sua própria LLM requer uma alta capacidade computacional, em alguns casos, utilizar uma API de LLM acaba sendo uma opção rápida para implementações de projetos de pequeno, médio e grande porte.
+Treinar a sua própria LLM requer uma elevada capacidade computacional, em alguns casos, utilizar uma API de LLM acaba sendo uma opção rápida e barata para implementações de projetos de pequeno, médio e grande porte.
+
+Alguns exemplos de IA Generativa que permitem a interação por meio de apis:
 
 - OpenAI
 - Replicate
@@ -58,6 +61,9 @@ Treinar a sua própria LLM requer uma alta capacidade computacional, em alguns c
 ## Configurando o ambiente virtual e iniciando projeto
 
 #### Ambiente Virtual
+
+Ambiente virtual em Python é um espaço isolado que permite gerenciar dependências e pacotes de forma independente para cada projeto.
+
 
 ```bash
 
@@ -73,7 +79,7 @@ pip install requests beautifulsoup4 python-decouple
 ```
 
 #### Dotenv (.env)
-É importante que chaves de autententicação não extejam expostas diretamente no código fonte.
+É importante que chaves de autenticação não estejam expostas diretamente no código fonte, e o uso do arquivo `.env` permite armazenar essas variáveis de forma segura e organizada, facilitando a configuração do ambiente sem comprometer a segurança do projeto.
 
 ```
 OPENAI_API_KEY=sk-proj-aksu1i
@@ -83,11 +89,13 @@ OPENAI_API_KEY=sk-proj-aksu1i
 
 ### Requisitos
 
-Além de ter o Python instalado, é necessário possuir uma chave de API da OpenAI, e adicioar um pequeno saldo para uso em testes.
+Além de ter o Python instalado, é necessário obter uma chave de API da OpenAI e adicionar um saldo mínimo à conta, permitindo realizar testes e chamadas aos serviços da API durante o desenvolvimento do projeto.
 
 - [OpenAI Projects](https://platform.openai.com/settings/organization/projects)
 
-[![OPENAI_API_KEY](https://img.shields.io/badge/OPENAI_API_KEY-8A2BE2)](https://anotepad.com/notes/ti9rnm89){:target="_blank"}
+Crie um arquivo chamado `main.py`, que será responsável por centralizar a lógica do assistente virtual, realizando a comunicação com a API da OpenAI e controlando o fluxo de interação com o usuário.
+
+
 ```py title="main.py" linenums="1"
 import requests
 from decouple import config
@@ -123,6 +131,9 @@ except Exception as e:
 ```
 
 #### Exemplo de resposta
+
+Resposta JSON contendo uma piada sobre inteligência artificial fornecida pelo assistente.
+
 
 ```json linenums="1"
 {
@@ -164,6 +175,7 @@ except Exception as e:
 ```
 
 #### Observando alguns elementos...
+Resposta JSON com uma piada leve sobre inteligência artificial dada pelo assistente, destacando os campos principais como `choices`, `message` e `content`.
 
 ```json hl_lines="2-14" linenums="1"
 {
@@ -223,9 +235,10 @@ except Exception as e:
 
 ## Entendendo e implementando o recurso de Chat
 
-Como se fosse recurso de memória
+O recurso de chat permite a troca contínua de mensagens entre o usuário e o modelo, mantendo o contexto da conversa para respostas mais coerentes. A "memória" no chat ajuda a lembrar interações anteriores durante a sessão, garantindo um diálogo mais natural e contextualizado.
 
-Implementando uma array dinâmica
+Agora é necessário implementar uma array dinâmica, para fornecer ao assistente um contexto de conversação para que ele possa "se lembrar" da nossa conversa e não mais esquecer.
+
 
 ```py title="main.py" linenums="1" hl_lines="16 19 22-24 33"
 import requests
@@ -249,7 +262,7 @@ data = {
 while True: # Laço para simular um chat
     try:
 
-        user = input('Digite sua pergunta: ') # Primeira mensagem do chat
+        user = input('$$ ') # Primeira mensagem do chat
 
         data['messages'].append({"role": "user", "content": user}) # Adiciona a mensagem do usuário na lista de mensagens
 
@@ -267,19 +280,24 @@ while True: # Laço para simular um chat
 
 ```
 
-O recurso de chat é muito útil para implementação de memória
+O recurso de chat é muito útil para implementação de memória, pois permite que o sistema mantenha o contexto e as informações das interações anteriores, garantindo respostas mais precisas e personalizadas ao longo da conversa.
 
 ## Definindo as instruções de sistema
+**Instrução de sistema** é uma orientação ou conjunto de regras fornecidas ao modelo de linguagem para guiar seu comportamento, estilo de resposta e limites durante a conversa.
+Definindo as instruções de sistema, começamos a modelar a Assistente para que ela atue de forma consistente, alinhada aos objetivos e contexto desejados.
 
-Começando a modelar a Assistente
 
-- Prompt de sistema
+Começando a modelar a Assistente:
+
+- Exemplo de prompt de sistema:
 
 ```txt
 Você é uma assistente virtual especializada em astrologia, seu nome é Estrela Guia ✨
 Sua missão é auxiliar o usuário com dúvidas sobre astrologia e guiar o usuário no caminho do autoconhecimento
 Utilize uma linguagem empática e uma escrita acolhedora.
 ```
+
+Implementando no código:
 
 ```py title="main.py" linenums="1" hl_lines="17-23"
 import requests
@@ -311,7 +329,7 @@ Utilize uma linguagem empática e uma escrita acolhedora."""
 while True:  # Laço para simular um chat
     try:
 
-        user = input('Digite sua pergunta: ')
+        user = input('$$ ')
 
         # Adiciona a mensagem do usuário na lista de mensagens
         data['messages'].append({"role": "user", "content": user})
@@ -336,8 +354,43 @@ while True:  # Laço para simular um chat
 - Molhorando o Prompt de sistema
 
 ```title="instructions.txt"
---8<-- "instructions.txt"
+Você é uma estrela guia, uma assistente astrológica carismática e inspiradora, dedicada a oferecer conselhos de positividade, bem-estar e autoconhecimento. Para iniciar a interação, você precisa do **nome** e do **signo** do usuário — pergunte essas duas informações uma de cada vez, com gentileza e leveza.
+
+* **Chame a ferramenta `pega_nome` somente quando o usuário informar seu nome.**
+* **Chame a ferramenta `busca_horoscopo_hoje` apenas quando o usuário pedir explicitamente para saber o seu horóscopo de hoje.**
+
+---
+
+**Objetivo:**
+
+* Guiar o usuário com mensagens motivadoras baseadas em astrologia e espiritualidade.
+* Promover equilíbrio emocional, esperança e crescimento pessoal.
+
+**Personalidade:**
+
+* Calma, acolhedora e carismática.
+* Tom encorajador, gentil e cheio de luz.
+
+**Estilo de escrita:**
+
+* Linguagem poética e inspiradora, porém clara e acessível.
+* Frases suaves que transmitem conforto e otimismo.
+* Escreva em frases curtas e concisas.
+
+**Restrições:**
+
+* Não fazer previsões alarmistas ou deterministas.
+* Não gere listas longas nem textos extensos.
+* Evitar temas controversos ou negativos.
+* Respeitar as crenças e sentimentos do usuário.
+* Nunca responder a contextos não relacionados à astrologia.
+* **Não pergunte a data de nascimento; apenas o signo do usuário.**
+
+Sempre ofereça orientações positivas e mensagens que elevem o espírito, ajudando o usuário a se conectar consigo mesmo e com o universo.
+
 ```
+
+Atualizando o `main.py` ao estilo pythonista e carregando as instruções de sistema personalizadas ao modelo.
 
 ```py title="main.py" linenums="1" hl_lines="19 24-26"
 import requests
@@ -370,7 +423,7 @@ with open('instructions.txt', 'r') as file:
 while True:  # Laço para simular um chat
     try:
 
-        user = input('Digite sua pergunta: ')
+        user = input('$$ ')
 
         # Adiciona a mensagem do usuário na lista de mensagens
         data['messages'].append({"role": "user", "content": user})
@@ -390,11 +443,11 @@ while True:  # Laço para simular um chat
         raise print(e)
 ```
 
-## Intrudução a tool calling (Chamada de funções)
+## Introdução a tool calling (Chamada de funções)
 
 A chamada de ferramentas refere-se à capacidade dos modelos de inteligência artificial (IA) de interagir com ferramentas externas, interfaces de programação de aplicativos (APIs) ou sistemas para aprimorar suas funções.
 
-Ela permite que sistemas autônomos concluam tarefas mais complexas acessando e atuando dinamicamente sobre recursos externos e/ou internos.
+Essa funcionalidade permite que sistemas autônomos concluam tarefas mais complexas acessando e atuando dinamicamente sobre recursos externos e/ou internos.
 
 Chamada de ferramentas permitem ao modelo de IA agir buscando informações na web em tempo real para otimizar o resultado com dados mais atualizados.
 
@@ -402,16 +455,16 @@ Chamada de ferramentas permitem ao modelo de IA agir buscando informações na w
 
 Para configurar uma tool é necessário estruturar um objeto JSON contendo as informações necessárias para identificar a função e seu argumentos, em seguida informar para o modelo que agora ele possuí uma ferramenta para lidar com uma determinada tarefa.
 
-### Exemplo de uma tool
+### Exemplo de uma tool `pega_nome`
 
-Abaixo um objeto JSON contendo uma ferramenta chamada `pega_nome` contendo a propiedade `nome` do tipo {++string++}.
+Abaixo um objeto JSON contendo uma ferramenta chamada `pega_nome` contendo a propiedade `nome` do tipo **string**.
 
 ```json
 {
     "type": "function",
     "function": {
         "name": "pega_nome",
-        "description": "Pega o nome completo do usuário", //Gatilho para chamar a função
+        "description": "Pega o nome completo do usuário", //Gatilho: instrução concisa e direta para acionar a chamada desta função
         "parameters": {
             "type": "object",
             "properties": {
@@ -430,7 +483,7 @@ Abaixo um objeto JSON contendo uma ferramenta chamada `pega_nome` contendo a pro
 }
 ```
 
-Atualizando o arquivo {++main.py++} para informar ao modelo que agora ele tem a ferramenta `pega_nome` que será acionada quando o usuário informar o seu nome.
+Atualizando o arquivo **main.py** para informar ao modelo que agora ele tem a ferramenta `pega_nome` que será acionada quando o usuário informar o seu nome.
 
 ```py title="main.py" linenums="1" hl_lines="22-44"
 import requests
@@ -486,7 +539,7 @@ with open('instructions.txt', 'r') as file:
 while True:  # Laço para simular um chat
     try:
 
-        user = input('Digite sua pergunta: ')
+        user = input('$$ ')
 
         # Adiciona a mensagem do usuário na lista de mensagens
         data['messages'].append({"role": "user", "content": user})
@@ -565,7 +618,7 @@ with open('instructions.txt', 'r') as file:
 while True:  # Laço para simular um chat
     try:
 
-        user = input('Digite sua pergunta: ')
+        user = input('$$ ')
 
         # Adiciona a mensagem do usuário na lista de mensagens
         data['messages'].append({"role": "user", "content": user})
@@ -616,7 +669,7 @@ while True:  # Laço para simular um chat
 }
 ```
 
-Corrigindo o arquivo {++main.py++}
+Vamos corrigir o arquivo **main.py** para acessar os argumentos devolvidos pelo modelo.
 
 ```py title="main.py" linenums="1" hl_lines="4 64-75"
 import requests
@@ -673,7 +726,7 @@ with open('instructions.txt', 'r') as file:
 while True:  # Laço para simular um chat
     try:
 
-        user = input('Digite sua pergunta: ')
+        user = input('$$ ')
 
         # Adiciona a mensagem do usuário na lista de mensagens
         data['messages'].append({"role": "user", "content": user})
@@ -690,7 +743,7 @@ while True:  # Laço para simular um chat
             if(function_name == 'pega_nome'):
                 print("Simulando a manipulação do nome...")
                 nome = function_args['nome'].upper()
-                text = f"Olá: {nome}! Seja bem vindo! Em que posso ser útil hoje?"
+                text = f"Olá: {nome}! Você poderia me informar qual é o seu signo?"
 
         else:
             text = body['choices'][0]['message']['content']
@@ -704,16 +757,25 @@ while True:  # Laço para simular um chat
         raise print(e)
 ```
 
+Tool calling é fundamental porque permite que modelos de IA utilizem funcionalidades externas para executar tarefas específicas além de gerar texto, como buscar dados atualizados ou controlar dispositivos. Isso amplia muito a utilidade e precisão das respostas, tornando a IA mais prática e eficaz. Além disso, integrações com ferramentas garantem respostas contextualizadas e adaptadas às necessidades reais do usuário.
+
+
 ## Introdução ao Web Scraping
 
-**Web Scraping** ou **raspagem web** é o precesso de "raspagem" de dados de páginas na internet. Scripts são codificados para acessar páginas web, analisar a estrura a sua HTML, localizar e extrair dados diversos para objetivos diversos, como coletar de dados para análise posteriores, monitorar informações e preços de prudutos etc...
+**Web Scraping** ou **raspagem web** é o processo de "raspagem" de dados de páginas na internet. Scripts são codificados para acessar páginas web, analisar a estrutura da sua HTML, localizar e extrair dados diversos para objetivos diversos, como coletar dados para análise posteriores, monitorar informações e preços de produtos etc…
 
-A técnica comum e amplamente utilizada por programadores de vários níveis.
+A técnica é comum e amplamente utilizada por programadores de vários níveis. 
 
 ### Beautiful Soup
+BeautifulSoup é uma biblioteca Python usada para extrair dados de arquivos HTML e XML de forma simples e eficiente. Ela facilita a navegação, busca e modificação do conteúdo das páginas web para web scraping e análise.
+
 [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup)
 
-Carregar o HTML da página
+Vamos brincar um pouco...
+
+Crie o arquivo `web_scraping.py` e vamos fazer uma raspagem de dados em um site simples
+
+Primeiro vamos preparar o `parser` - motor que analisa, interpreta e organiza os dados para facilizar sua manipulação.
 
 ```py title="web_scraping.py" linenums="1"
 import requests
@@ -723,7 +785,7 @@ resp = requests.get("https://www.horoscopovirtual.com.br/horoscopo/libra")
 html = soup(resp.text, 'html.parser')
 ```
 
-Analisar a estrutura HTML e localizar a data do horóscopo
+Analizando o código fonte do site horoscopovirtual.com.br podemos facilmente entender sua estrutura, agora é só informar ao `BeautifulSoup` como ele deve encontrar os dados que queremos obter.
 
 ```py title="web_scraping.py" linenums="1" hl_lines="6 8-10"
 import requests
@@ -741,7 +803,7 @@ print(hoje)
 
 ```
 
-Analisar a estrutura HTML, localizar a data e o horóscopo
+Agora vamos estudar um pouco mais o site para encontrar os dados de horóscopo.
 
 ```py title="web_scraping.py" linenums="1" hl_lines="12-13"
 import requests
@@ -762,40 +824,179 @@ print(hoje, horoscopo)
 
 ```
 
-### Raspando dados de horóscopo
+### Recapitulando o nosso **scraper**
+
+Entendemos o que é e para que serve um **scraper**, localizamos um fonte de dados para realizar a raspagem e definimos a estratégia para obter os dados.
+
+Agora vamos unir os dois mundos e dar a nossa IA a capacidade de interagir com a web para obter informações em tempo real!
 
 ## Configurando a tool busca de horóscopo
 
 ```json
 {
-    "type": "function",
-    "function": {
-        "name": "busca_horoscopo",
-        "description": "Função para buscar o horóscopo do usuário quando solicitado",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "signo": {
-                    "type": "string",
-                    "description": "Signo do usuário, deve ser no formato minuscúlo sem acentução. Ex: Áries, Gêmeos. Deve ficar: aries, gemeos"
-                }
-            },
-            "required": [
-                "signo"
-            ],
-            "additionalProperties": False
-        },
-        "strict": True
-    }
+  "type": "function",
+  "function": {
+    "name": "busca_horoscopo_hoje",
+    "description": "Execute esta função apenas quando o usuário pedir explicitamente para saber o seu horóscopo de hoje.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "signo": {
+          "type": "string",
+          "description": "Signo do usuário, deve ser no formato minúsculo e sem acentuação. Ex: Áries → aries, Gêmeos → gemeos"
+        }
+      },
+      "required": [
+        "signo"
+      ],
+      "additionalProperties": false
+    },
+    "strict": true
+  }
 }
 ```
 
-## Finalizando a tool de horóscopo com busca na web em tempo real
-### configurando a raspagem de dados
-### Atualizando o main.py
+Vamos agora atualizar o arquivo `web_scraping.py` para permitir que o signo seja informado como argumento para a função `scraper`
+
+```py title="web_scraping.py" linenums="1" hl_lines="4-16"
+import requests
+from bs4 import BeautifulSoup as soup
+
+def scraper(signo):
+    resp = requests.get( f"https://www.horoscopovirtual.com.br/horoscopo/{signo}")
+
+    html = soup(resp.text, 'html.parser')
+
+    hoje_div= html.find('div', attrs={'class': 'days-wrapper'})
+    hoje = hoje_div.find('p')
+    hoje = hoje.text
+
+    horoscopo_div = html.find('p', attrs={'class': 'text-pred'})
+    horoscopo = horoscopo_div.text.strip()
+
+    return horoscopo
+```
 
 ## Finalizando o assistente
-### Empacotando tudo
+
+
+Agora vamos atualizar o arquivo **main.py** para finalizar nosso assistente!
+
+```py title="main.py" linenums="1" hl_lines="4-14"
+import requests
+from decouple import config
+from pprint import pprint
+import json
+
+from web_scraping import scraper
+
+OPENAI_API_KEY = config('OPENAI_API_KEY')
+
+api_url = 'https://api.openai.com/v1'
+
+headers = {
+    'Content-Type': 'application/json',
+    'Authorization': f'Bearer {OPENAI_API_KEY}'
+}
+
+data = {
+    "model": "gpt-4.1-mini",
+    "messages": [
+        {
+            "role": "developer",
+            "content": ""
+        }
+    ],
+    "tools": [
+        {
+            "type": "function",
+            "function": {
+                "name": "pega_nome",
+                "description": "Pega o nome completo do usuário",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "nome": {
+                            "type": "string",
+                            "description": "Nome completo do usuário."
+                        }
+                    },
+                    "required": [
+                        "nome"
+                    ],
+                    "additionalProperties": False
+                },
+                "strict": True
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "busca_horoscopo_hoje",
+                "description": "Execute esta função apenas quando o usuário pedir explicitamente para saber o seu horóscopo de hoje.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "signo": {
+                            "type": "string",
+                            "description": "Signo do usuário, deve ser no formato minúsculo e sem acentuação. Ex: Áries → aries, Gêmeos → gemeos"
+                        }
+                    },
+                    "required": [
+                        "signo"
+                    ],
+                    "additionalProperties": False
+                },
+                "strict": True
+            }
+        }
+
+    ]
+}
+
+with open('instructions.txt', 'r') as file:
+    instructions = file.read()
+    data['messages'][0]['content'] = instructions
+
+while True:  # Laço para simular um chat
+    try:
+
+        user = input('$$ ')
+
+        # Adiciona a mensagem do usuário na lista de mensagens
+        data['messages'].append({"role": "user", "content": user})
+
+        resp = requests.post(f'{api_url}/chat/completions',
+                             headers=headers, json=data)
+        body = resp.json()
+
+        tool_calls = body['choices'][0]['message'].get("tool_calls")
+
+        if (tool_calls):
+            function_name = tool_calls[0]['function']['name']
+            function_args = json.loads(tool_calls[0]['function']['arguments'])
+            if (function_name == 'pega_nome'):
+                print("Simulando a manipulação do nome...")
+                nome = function_args['nome'].upper()
+                text = f"Olá: {nome}! Você poderia me informar qual é o seu signo?"
+
+            elif (function_name == "busca_horoscopo_hoje"):
+                signo = function_args["signo"]
+                horosco_de_hoje = scraper(signo)
+                text = f"O seu horóscopo de hoje é: {horosco_de_hoje}"
+
+        else:
+            text = body['choices'][0]['message']['content']
+
+        print(text)
+
+        # Adiciona a resposta da modelo na lista de mensagens
+        data['messages'].append({"role": "assistant", "content": text})
+
+    except Exception as e:
+        raise print(e)
+
+```
 
 ## Ferramentas Open Source
 

@@ -1,6 +1,7 @@
 site_name: Estrela Guia
 site_description: Assistente virtual astrológica codificada com Python e OpenAI
 site_url: https://github.com/grupy-pa/estrelaguia
+repo_url: https://github.com/grupy-pa/estrelaguia
 
 theme:
   name: material
